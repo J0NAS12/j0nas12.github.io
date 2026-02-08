@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
         this.velocity *= -1;
       }
 
-      this.animationId = requestAnimationFrame(this.animate);
+      this.animationId = requestAnimationFrame(animate);
     };
   }
 }
