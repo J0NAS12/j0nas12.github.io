@@ -1,0 +1,14 @@
+<mat-card style="padding: 5px;">
+    <mat-card-title>{{gameState.players[gameState.nextPlayer].name}}'s Turn!</mat-card-title>
+    <mat-card-content>
+        <mat-grid-list [cols]="gameState.size" rowHeight="1:1"
+            style="width: 500px; background-color: darkgray; padding: 5px;" gutterSize="5px">
+            @for (tile of gameState.tiles; track $index) {
+            <mat-grid-tile (click)="selectTile($index)" [colspan]="1" [rowspan]="1"
+                [style.background]="'white'">{{gameState.tiles[$index] == null?
+                '' : gameState.tiles[$index] == 1 ? 'X' :
+                'O'}}</mat-grid-tile>
+            }
+        </mat-grid-list>
+    </mat-card-content>
+</mat-card>

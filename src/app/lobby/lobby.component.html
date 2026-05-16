@@ -1,0 +1,26 @@
+<h2>{{lobby.name}}</h2>
+<mat-card>
+    @for (member of lobby.members; track member) {
+    <div>
+        {{member.name}}
+    </div>
+    }
+</mat-card>
+
+@switch (lobby.game) {
+@case('tic-tac-toe'){
+<app-tic-tac-toe [gameState]="lobby.gameState" (gameEvent)="gameEvent($event)"></app-tic-tac-toe>
+}
+
+@default {
+<h2>Select Game</h2>
+@for (game of lobby.games; track game) {
+<div style="display: flex;">
+    <div>
+        {{game}}
+    </div>
+    <button mat-button (click)="play(game)">Play</button>
+</div>
+}
+}
+}
