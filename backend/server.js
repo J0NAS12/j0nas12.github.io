@@ -55,6 +55,29 @@ io.on("connection", (socket) => {
   });
 
   socket.on("name", (name) => {
+    Object.keys(names).forEach((id) => {
+      if (names[id] == name) {
+        Object.keys(lobbies).forEach((lobby) => {
+          lobbies[lobby].members.forEach((member) => {
+            if (member.name == name) {
+              member.id = socket.id;
+            }
+          });
+          lobbies[lobby].gameState.players.forEach((member) => {
+            if (member.name == name) {
+              member.id = socket.id;
+            }
+          });
+        });
+        socket.emit("name", name);
+        socket.emit("start_lobby");
+        console.log("User reconnected:", socket.id, name);
+        delete names[id];
+        names[socket.id] = name;
+        return;
+      }
+    });
+
     socket.emit("name", name);
     console.log("User connected:", socket.id, name);
     io.emit("messages", messages);

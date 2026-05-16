@@ -13,14 +13,17 @@
 }
 
 @default {
-<h2>Select Game</h2>
-@for (game of lobby.games; track game) {
-<div style="display: flex;">
-    <div>
-        {{game}}
+<mat-card>
+    <h2>Select Game</h2>
+    @for (game of lobby.games; track game) {
+    <div style="display: flex;">
+        <div>
+            {{game}}
+        </div>
+        <button mat-button (click)="play(game)">Play</button>
     </div>
-    <button mat-button (click)="play(game)">Play</button>
-</div>
-}
+
+    }
+</mat-card>
 }
 }

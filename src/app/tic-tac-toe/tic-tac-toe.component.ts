@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { WebSocketService } from '../../services/websocketservice';
 
 @Component({
   selector: 'app-tic-tac-toe',
@@ -14,6 +15,8 @@ export class TicTacToeComponent {
 
   @Output() gameEvent = new EventEmitter<any>();
 
+  constructor(private wss: WebSocketService) {}
+
   selectTile(tile: any) {
     console.log(tile);
     //this.gameState.tiles[tile] = 1;
@@ -21,5 +24,16 @@ export class TicTacToeComponent {
       game: 'tic-tac-toe',
       move: tile,
     });
+  }
+
+  public turn(): boolean {
+    console.log(
+      this.gameState.players[this.gameState.nextPlayer].name,
+      this.wss.username,
+    );
+    return (
+      this.gameState.players[this.gameState.nextPlayer].name ==
+      this.wss.username
+    );
   }
 }

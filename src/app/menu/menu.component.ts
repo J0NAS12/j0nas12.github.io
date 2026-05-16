@@ -62,9 +62,12 @@ export class MenuComponent {
       this.activeLobby = this.checkActiveLobby(this.lobbies);
     });
 
-    this.wss.listen<any>('name').subscribe(() => {
+    this.wss.listen<any>('name').subscribe((name) => {
+      console.log('name', name);
+      this.wss.username = name;
       this.connected = true;
     });
+
     this.wss.listen<any>('start_lobby').subscribe((lobby) => {
       this.router.navigate(['/lobby']);
     });

@@ -1,8 +1,14 @@
-<mat-card style="padding: 5px;">
-    <mat-card-title>{{gameState.players[gameState.nextPlayer].name}}'s Turn!</mat-card-title>
-    <mat-card-content>
+<mat-card style="padding: 5px; width: fit-content;">
+    <mat-card-title>
+        @if(turn()){
+        Your turn!
+        }@else {
+        {{gameState.players[gameState.nextPlayer].name }}'s turn!
+        }
+    </mat-card-title>
+    <mat-card-content [style]="turn() ? 'background-color: green' : 'background-color: red'">
         <mat-grid-list [cols]="gameState.size" rowHeight="1:1"
-            style="width: 500px; background-color: darkgray; padding: 5px;" gutterSize="5px">
+            style="width: 500px; background-color: black; padding: 5px;" gutterSize="5px">
             @for (tile of gameState.tiles; track $index) {
             <mat-grid-tile (click)="selectTile($index)" [colspan]="1" [rowspan]="1"
                 [style.background]="'white'">{{gameState.tiles[$index] == null?

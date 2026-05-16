@@ -3,13 +3,19 @@ import { Router } from '@angular/router';
 import { WebSocketService } from '../../services/websocketservice';
 import { TicTacToeComponent } from '../tic-tac-toe/tic-tac-toe.component';
 import { MatButton } from '@angular/material/button';
-import { MatCard } from '@angular/material/card';
+import { MatCard, MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-lobby',
   standalone: true,
-  imports: [TicTacToeComponent, MatButton, MatCard, CommonModule],
+  imports: [
+    TicTacToeComponent,
+    MatButton,
+    MatCard,
+    CommonModule,
+    MatCardModule,
+  ],
   templateUrl: './lobby.component.html',
   styleUrl: './lobby.component.css',
 })
