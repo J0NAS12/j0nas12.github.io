@@ -2,7 +2,7 @@
   "name": "homepage",
   "version": "0.0.0",
   "scripts": {
-    "dev": "nodemon backend/server.js",
+    "dev": "nodemon backend/combined-server.js",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
