@@ -2,12 +2,13 @@
   "name": "homepage",
   "version": "0.0.0",
   "scripts": {
-    "dev": "nodemon backend/server.js",
+    "dev": "nodemon backend/combined-server.js",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node backend/combined-server.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:all": "ng build && node backend/combined-server.js"
   },
   "private": true,
   "dependencies": {
