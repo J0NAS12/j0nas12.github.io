@@ -1,82 +1,91 @@
-<button mat-button (touchend)="count()" (click)="count()">Counter</button>
-{{ counter }}
-<div style="display: flex">
-  @if (!connected) {
-    <div style="display: flex; flex-direction: column; min-width: 30vw">
-      <mat-form-field style="padding: 8px" appearance="outline">
-        <mat-label>name</mat-label>
-        <input matInput type="text" [(ngModel)]="username" />
-      </mat-form-field>
-      <button mat-button (click)="connect()">Connect</button>
-    </div>
-  }
-  @if (connected) {
-    <div style="display: flex; flex-direction: column; min-width: 30vw">
-      <div>Connected as {{ this.username }}</div>
-      <mat-form-field style="padding: 8px" appearance="outline">
-        <mat-label>message</mat-label>
-        <input
-          matInput
-          type="text"
-          [(ngModel)]="message"
-          placeholder="message..."
-        />
-      </mat-form-field>
-      <button mat-button (click)="sendMessage()">Send</button>
+<div class="app-container">
+  <button mat-button (touchend)="count()" (click)="count()">Counter</button>
+  <div class="counter">{{ counter }}</div>
 
-      <!--
-<canvas id="canvas" width="1000" height="500" style="border: 1px solid #000000">
-</canvas>-->
-      @for (message of messages; track message) {
-        <mat-card
-          appearance="raised"
-          style="margin: 8px; padding: 8px; width: 400px"
-        >
-          <mat-card-title
-            ><span style="font-weight: 500">{{
-              message.name
-            }}</span></mat-card-title
-          >
-          <mat-card-content>{{ message.text }}</mat-card-content>
-        </mat-card>
-      }
-    </div>
-    <div style="display: flex; flex-direction: column; min-width: 30vw">
-      <ng-container [style]="activeLobby != null ? 'display: none' : ''">
-        <mat-form-field style="padding: 8px" appearance="outline">
-          <mat-label>Lobby name</mat-label>
-          <input matInput type="text" [(ngModel)]="lobby_name" />
+  <div class="layout">
+    <!-- LEFT: auth / lobby creation -->
+    @if (!connected) {
+      <div class="panel">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" [(ngModel)]="username" />
         </mat-form-field>
-        <button mat-button (click)="createLobby()">Create Lobby</button>
-      </ng-container>
-      <h2>Lobbies:</h2>
-      @for (lobby of getkeys(lobbies); track lobby) {
-        <mat-card
-          appearance="raised"
-          style="margin: 8px; padding: 8px; width: 400px"
-          [class.active]="activeLobby == lobby"
-        >
-          <mat-card-title
-            ><span style="font-weight: 500"
-              >{{ lobby }} {{ lobbies[lobby].inGame ? " - In Game" : "" }}</span
-            ></mat-card-title
-          >
-          <mat-card-content>
-            @for (member of lobbies[lobby].members; track member) {
-              <div>{{ member.name }}</div>
-            }
-          </mat-card-content>
-          <mat-card-actions>
-            @if (activeLobby == null && !lobbies[lobby].inGame) {
-              <button mat-button (click)="joinLobby(lobby)">Join</button>
-            }
-            @if (lobby == activeLobby) {
-              <button mat-button (click)="startLobby(lobby)">Start</button>
-              <button mat-button (click)="leaveLobby(lobby)">Leave</button>
-            }
-          </mat-card-actions>
-        </mat-card>
-      }
-    </div>
-  }
+
+        <button mat-raised-button color="primary" (click)="connect()">
+          Connect
+        </button>
+      </div>
+    }
+
+    <!-- MAIN AREA -->
+    @if (connected) {
+      <!-- Chat -->
+      <div class="panel">
+        <div class="status">
+          Connected as <b>{{ username }}</b>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Message</mat-label>
+          <input matInput [(ngModel)]="message" placeholder="message..." />
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="sendMessage()">
+          Send
+        </button>
+
+        <div class="list">
+          @for (message of messages; track message) {
+            <mat-card class="card">
+              <mat-card-title>{{ message.name }}</mat-card-title>
+              <mat-card-content>{{ message.text }}</mat-card-content>
+            </mat-card>
+          }
+        </div>
+      </div>
+
+      <!-- Lobbies -->
+      <div class="panel">
+        <ng-container [style.display]="activeLobby != null ? 'none' : 'block'">
+          <mat-form-field appearance="outline">
+            <mat-label>Lobby name</mat-label>
+            <input matInput [(ngModel)]="lobby_name" />
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" (click)="createLobby()">
+            Create Lobby
+          </button>
+        </ng-container>
+
+        <h2>Lobbies</h2>
+
+        <div class="list">
+          @for (lobby of getkeys(lobbies); track lobby) {
+            <mat-card class="card" [class.active]="activeLobby == lobby">
+              <mat-card-title>
+                {{ lobby }}
+                {{ lobbies[lobby].inGame ? " - In Game" : "" }}
+              </mat-card-title>
+
+              <mat-card-content>
+                @for (member of lobbies[lobby].members; track member) {
+                  <div>{{ member.name }}</div>
+                }
+              </mat-card-content>
+
+              <mat-card-actions>
+                @if (activeLobby == null && !lobbies[lobby].inGame) {
+                  <button mat-button (click)="joinLobby(lobby)">Join</button>
+                }
+                @if (lobby == activeLobby) {
+                  <button mat-button (click)="startLobby(lobby)">Start</button>
+                  <button mat-button (click)="leaveLobby(lobby)">Leave</button>
+                }
+              </mat-card-actions>
+            </mat-card>
+          }
+        </div>
+      </div>
+    }
+  </div>
 </div>

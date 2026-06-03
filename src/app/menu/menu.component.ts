@@ -83,6 +83,7 @@ export class MenuComponent {
     this.wss.emit("message", {
       text: this.message,
     });
+    this.message = "";
   }
 
   getkeys(o: any) {

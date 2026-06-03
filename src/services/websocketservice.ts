@@ -16,7 +16,7 @@ export class WebSocketService {
 
   connect(): void {
     this.socket.on("connect", () => {
-      alert(this.socket.id);
+      alert("Server connected: " + this.socket.id);
       console.log("Connected:", this.socket.id);
     });
 
