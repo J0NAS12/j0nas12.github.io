@@ -3,12 +3,11 @@ const express = require("express");
 
 function setupRoutes(app) {
   // serve Angular build
-  app.use(express.static(path.join(__dirname, "../dist")));
+  app.use(express.static(path.join(__dirname, "../dist/browser")));
 
-  // SPA fallback
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../dist/index.html"));
+  app.use((req, res) => {
+    res.sendFile(path.join(__dirname, "../dist/browser/index.html"));
   });
 }
 
-module.exports = { setupRoutes };
+module.exports = setupRoutes;

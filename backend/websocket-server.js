@@ -1,8 +1,7 @@
-const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 
-export function setUpServer(server) {
+function setUpServer(server) {
   const io = new Server(server, {
     cors: {
       origin: "*",
@@ -159,4 +158,4 @@ function ticTacToe(player, action) {
   emitForLobby(lobby.name, "game", lobby);
 }
 
-module.exports = { setupWebSocket };
+module.exports = setUpServer;

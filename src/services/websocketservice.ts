@@ -11,7 +11,7 @@ export class WebSocketService {
   public username: any;
 
   constructor() {
-    this.socket = io("http://127.0.0.1:3000");
+    this.socket = io();
   }
 
   connect(): void {

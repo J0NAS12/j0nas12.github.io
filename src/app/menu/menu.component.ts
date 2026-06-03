@@ -76,10 +76,7 @@ export class MenuComponent {
   }
 
   connect() {
-    this.counter += 1;
-    alert(this.username);
     this.wss.emit("name", this.username);
-    this.counter += 1;
   }
 
   sendMessage() {

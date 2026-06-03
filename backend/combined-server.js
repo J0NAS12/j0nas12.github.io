@@ -1,18 +1,20 @@
 const express = require("express");
 const http = require("http");
 
-const setupRoutes = require("./routes");
+const setUpRoutes = require("./routes");
 const setupWebSocket = require("./websocket-server");
 
 const app = express();
 const server = http.createServer(app);
 
 // attach HTTP routes
-setupRoutes(app);
+setUpRoutes(app);
 
 // attach WebSocket
 setupWebSocket(server);
 
-server.listen(3000, () => {
-  console.log("Server running on port 3000");
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, "0.0.0.0", () => {
+  console.log("Server running on port", PORT);
 });
