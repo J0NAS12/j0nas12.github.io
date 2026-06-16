@@ -11,6 +11,15 @@ import { WebSocketService } from '../../services/websocketservice';
   styleUrl: './tic-tac-toe.component.css',
 })
 export class TicTacToeComponent {
+  getColor(tile: any) {
+    if (tile == 1) {
+      return '#00644e';
+    } else if (tile == 2) {
+      return '#df6471';
+    }
+
+    return '#ffd9af';
+  }
   @Input('gameState') gameState: any;
 
   @Output() gameEvent = new EventEmitter<any>();

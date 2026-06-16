@@ -8,7 +8,7 @@ function setUpServer(server) {
     },
   });
 
-  games = { 2: ["tic-tac-toe"] };
+  games = { "tic-tac-toe": (a) => a == 2, "playing-cards": (a) => true };
 
   names = {};
   messages = [];
@@ -102,6 +102,10 @@ function setUpServer(server) {
       if (action.game == "tic-tac-toe") {
         console.log("tic-tac-toe");
         ticTacToe(socket.id, action);
+      } else {
+        let lobby = getLobbyOfUser(socket.id);
+        lobby.game = action.game;
+        emitForLobby(lobby.name, "game", lobby);
       }
     });
 
@@ -125,7 +129,9 @@ function getLobbyOfUser(userId) {
   if (lobby == undefined) {
     return undefined;
   }
-  lobby.games = games[lobbies[key].members.length];
+  lobby.games = Object.keys(games).filter((game) =>
+    games[game](lobbies[key].members.length),
+  );
   return lobby;
 }
 

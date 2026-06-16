@@ -5,22 +5,30 @@
         {{member.name}}
     </div>
     }
+
+    <button mat-button (click)="play('')">Game Selector</button>
 </mat-card>
 
 @switch (lobby.game) {
 @case('tic-tac-toe'){
 <app-tic-tac-toe [gameState]="lobby.gameState" (gameEvent)="gameEvent($event)"></app-tic-tac-toe>
 }
+@case('playing-cards'){
+<app-playing-cards [gameState]="lobby.gameState" (gameEvent)="gameEvent($event)"></app-playing-cards>
+}
 
 @default {
 <mat-card>
     <h2>Select Game</h2>
     @for (game of lobby.games; track game) {
-    <div style="display: flex;">
-        <div>
-            {{game}}
+    <div class="game-row">
+        <div class="game-name">
+            {{ game }}
         </div>
-        <button mat-button (click)="play(game)">Play</button>
+
+        <button mat-raised-button color="primary" (click)="play(game)">
+            Play
+        </button>
     </div>
 
     }

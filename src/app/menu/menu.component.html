@@ -1,91 +1,92 @@
 <div class="app-container">
+  <img [src]="'assets/svg-cards/' + counter + '_of_clubs.svg'">
   <button mat-button (touchend)="count()" (click)="count()">Counter</button>
   <div class="counter">{{ counter }}</div>
 
   <div class="layout">
     <!-- LEFT: auth / lobby creation -->
     @if (!connected) {
-      <div class="panel">
-        <mat-form-field appearance="outline">
-          <mat-label>Name</mat-label>
-          <input matInput type="text" [(ngModel)]="username" />
-        </mat-form-field>
+    <div class="panel">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" [(ngModel)]="username" />
+      </mat-form-field>
 
-        <button mat-raised-button color="primary" (click)="connect()">
-          Connect
-        </button>
-      </div>
+      <button mat-raised-button color="primary" (click)="connect()">
+        Connect
+      </button>
+    </div>
     }
 
     <!-- MAIN AREA -->
     @if (connected) {
-      <!-- Chat -->
-      <div class="panel">
-        <div class="status">
-          Connected as <b>{{ username }}</b>
-        </div>
+    <!-- Chat -->
+    <div class="panel">
+      <div class="status">
+        Connected as <b>{{ username }}</b>
+      </div>
 
+      <mat-form-field appearance="outline">
+        <mat-label>Message</mat-label>
+        <input matInput [(ngModel)]="message" placeholder="message..." />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="sendMessage()">
+        Send
+      </button>
+
+      <div class="list">
+        @for (message of messages; track message) {
+        <mat-card class="card">
+          <mat-card-title>{{ message.name }}</mat-card-title>
+          <mat-card-content>{{ message.text }}</mat-card-content>
+        </mat-card>
+        }
+      </div>
+    </div>
+
+    <!-- Lobbies -->
+    <div class="panel">
+      <ng-container [style.display]="activeLobby != null ? 'none' : 'block'">
         <mat-form-field appearance="outline">
-          <mat-label>Message</mat-label>
-          <input matInput [(ngModel)]="message" placeholder="message..." />
+          <mat-label>Lobby name</mat-label>
+          <input matInput [(ngModel)]="lobby_name" />
         </mat-form-field>
 
-        <button mat-raised-button color="primary" (click)="sendMessage()">
-          Send
+        <button mat-raised-button color="primary" (click)="createLobby()">
+          Create Lobby
         </button>
+      </ng-container>
 
-        <div class="list">
-          @for (message of messages; track message) {
-            <mat-card class="card">
-              <mat-card-title>{{ message.name }}</mat-card-title>
-              <mat-card-content>{{ message.text }}</mat-card-content>
-            </mat-card>
-          }
-        </div>
+      <h2>Lobbies</h2>
+
+      <div class="list">
+        @for (lobby of getkeys(lobbies); track lobby) {
+        <mat-card class="card" [class.active]="activeLobby == lobby">
+          <mat-card-title>
+            {{ lobby }}
+            {{ lobbies[lobby].inGame ? " - In Game" : "" }}
+          </mat-card-title>
+
+          <mat-card-content>
+            @for (member of lobbies[lobby].members; track member) {
+            <div>{{ member.name }}</div>
+            }
+          </mat-card-content>
+
+          <mat-card-actions>
+            @if (activeLobby == null && !lobbies[lobby].inGame) {
+            <button mat-button (click)="joinLobby(lobby)">Join</button>
+            }
+            @if (lobby == activeLobby) {
+            <button mat-button (click)="startLobby(lobby)">Start</button>
+            <button mat-button (click)="leaveLobby(lobby)">Leave</button>
+            }
+          </mat-card-actions>
+        </mat-card>
+        }
       </div>
-
-      <!-- Lobbies -->
-      <div class="panel">
-        <ng-container [style.display]="activeLobby != null ? 'none' : 'block'">
-          <mat-form-field appearance="outline">
-            <mat-label>Lobby name</mat-label>
-            <input matInput [(ngModel)]="lobby_name" />
-          </mat-form-field>
-
-          <button mat-raised-button color="primary" (click)="createLobby()">
-            Create Lobby
-          </button>
-        </ng-container>
-
-        <h2>Lobbies</h2>
-
-        <div class="list">
-          @for (lobby of getkeys(lobbies); track lobby) {
-            <mat-card class="card" [class.active]="activeLobby == lobby">
-              <mat-card-title>
-                {{ lobby }}
-                {{ lobbies[lobby].inGame ? " - In Game" : "" }}
-              </mat-card-title>
-
-              <mat-card-content>
-                @for (member of lobbies[lobby].members; track member) {
-                  <div>{{ member.name }}</div>
-                }
-              </mat-card-content>
-
-              <mat-card-actions>
-                @if (activeLobby == null && !lobbies[lobby].inGame) {
-                  <button mat-button (click)="joinLobby(lobby)">Join</button>
-                }
-                @if (lobby == activeLobby) {
-                  <button mat-button (click)="startLobby(lobby)">Start</button>
-                  <button mat-button (click)="leaveLobby(lobby)">Leave</button>
-                }
-              </mat-card-actions>
-            </mat-card>
-          }
-        </div>
-      </div>
+    </div>
     }
   </div>
 </div>

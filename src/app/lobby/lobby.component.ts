@@ -5,6 +5,7 @@ import { TicTacToeComponent } from '../tic-tac-toe/tic-tac-toe.component';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
+import { PlayingCardsComponent } from '../playing-cards/playing-cards.component';
 
 @Component({
   selector: 'app-lobby',
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
     MatCard,
     CommonModule,
     MatCardModule,
+    PlayingCardsComponent,
   ],
   templateUrl: './lobby.component.html',
   styleUrl: './lobby.component.css',

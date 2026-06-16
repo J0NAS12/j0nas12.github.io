@@ -1,0 +1,8 @@
+<button mat-button>Flip</button>
+<p>Table</p>
+<div class="card-grid">
+    @for (card of cards; track $index) {
+
+    <img [class.selected]="selectedIndex === $index" [src]="cardToImage(cards[$index])">
+    }
+</div>

@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { io, Socket } from "socket.io-client";
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { io, Socket } from 'socket.io-client';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class WebSocketService {
   public socket: Socket;
@@ -15,13 +15,12 @@ export class WebSocketService {
   }
 
   connect(): void {
-    this.socket.on("connect", () => {
-      alert("Server connected: " + this.socket.id);
-      console.log("Connected:", this.socket.id);
+    this.socket.on('connect', () => {
+      console.log('Connected:', this.socket.id);
     });
 
-    this.socket.on("disconnect", () => {
-      console.log("Disconnected");
+    this.socket.on('disconnect', () => {
+      console.log('Disconnected');
     });
   }
 
