@@ -1,8 +1,4 @@
 <div class="app-container">
-  <img [src]="'assets/svg-cards/' + counter + '_of_clubs.svg'">
-  <button mat-button (touchend)="count()" (click)="count()">Counter</button>
-  <div class="counter">{{ counter }}</div>
-
   <div class="layout">
     <!-- LEFT: auth / lobby creation -->
     @if (!connected) {
@@ -22,13 +18,9 @@
     @if (connected) {
     <!-- Chat -->
     <div class="panel">
-      <div class="status">
-        Connected as <b>{{ username }}</b>
-      </div>
-
       <mat-form-field appearance="outline">
         <mat-label>Message</mat-label>
-        <input matInput [(ngModel)]="message" placeholder="message..." />
+        <input matInput [(ngModel)]="message" />
       </mat-form-field>
 
       <button mat-raised-button color="primary" (click)="sendMessage()">

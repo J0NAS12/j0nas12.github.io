@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { WebSocketService } from '../../services/websocketservice';
-import { TicTacToeComponent } from '../tic-tac-toe/tic-tac-toe.component';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { PlayingCardsComponent } from '../playing-cards/playing-cards.component';
+import { TicTacToeComponent } from '../games/tic-tac-toe/tic-tac-toe.component';
+import { PlayingCardsComponent } from '../games/playing-cards/playing-cards.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-lobby',
@@ -17,11 +20,21 @@ import { PlayingCardsComponent } from '../playing-cards/playing-cards.component'
     CommonModule,
     MatCardModule,
     PlayingCardsComponent,
+    MatSliderModule,
+    MatInputModule,
+    FormsModule,
   ],
   templateUrl: './lobby.component.html',
   styleUrl: './lobby.component.css',
 })
 export class LobbyComponent {
+  getKeys(o: any) {
+    console.log(o);
+    if (o == undefined) {
+      return [];
+    }
+    return Object.keys(o);
+  }
   lobby: any = { name: 'lobby' };
 
   constructor(
@@ -37,17 +50,26 @@ export class LobbyComponent {
     this.wss.listen<any>('game').subscribe((lobby) => {
       console.log(lobby);
       this.lobby = lobby;
+      if (lobby.gameState.winner != null) {
+        alert(
+          'Game over! Winner: ' +
+            lobby.gameState.players[lobby.gameState.winner].name,
+        );
+      }
     });
     this.wss.emit('lobby');
   }
 
   play(game: string) {
+    this.lobby.games[game];
+    let config: any = {};
+    this.getKeys(this.lobby.games[game]).forEach((key: any) => {
+      config[key] = this.lobby.games[game][key].default;
+    });
+    console.log('play', game, config);
     this.wss.emit('game', {
       game: game,
-      config: {
-        size: 20,
-        win: 4,
-      },
+      config: config,
     });
   }
 

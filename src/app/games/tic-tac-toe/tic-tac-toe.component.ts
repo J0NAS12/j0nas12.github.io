@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
-import { WebSocketService } from '../../services/websocketservice';
+import { WebSocketService } from '../../../services/websocketservice';
 
 @Component({
   selector: 'app-tic-tac-toe',

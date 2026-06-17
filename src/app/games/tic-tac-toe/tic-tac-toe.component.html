@@ -1,4 +1,4 @@
-<mat-card style="padding: 5px; width: fit-content;">
+<mat-card style="padding: 2px; width: fit-content;">
     <mat-card-title>
         @if(turn()){
         Your turn!
@@ -8,7 +8,7 @@
     </mat-card-title>
     <mat-card-content [style]="'background-color: ' + getColor(gameState.nextPlayer+1)">
         <mat-grid-list [cols]="gameState.size" rowHeight="1:1"
-            style="width: 500px; background-color: black; padding: 5px;" gutterSize="5px">
+            style="width: 500px; background-color: black; padding: 5px;" gutterSize="2px">
             @for (tile of gameState.tiles; track $index) {
             <mat-grid-tile (click)="selectTile($index)" [colspan]="1" [rowspan]="1"
                 [style.background]="getColor(gameState.tiles[$index])">{{gameState.tiles[$index] == null?

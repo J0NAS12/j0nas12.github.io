@@ -20,12 +20,20 @@
 @default {
 <mat-card>
     <h2>Select Game</h2>
-    @for (game of lobby.games; track game) {
+    @for (game of getKeys(lobby.games); track game) {
     <div class="game-row">
         <div class="game-name">
             {{ game }}
         </div>
-
+        @for (config of getKeys(lobby.games[game]); track config) {
+        <div class="game-name">
+            {{ config }}
+        </div>
+        <mat-slider [min]="lobby.games[game][config].min" [max]="lobby.games[game][config].max" step="1" showTickMarks
+            discrete>
+            <input matSliderThumb [(ngModel)]="lobby.games[game][config].default">
+        </mat-slider>
+        }
         <button mat-raised-button color="primary" (click)="play(game)">
             Play
         </button>

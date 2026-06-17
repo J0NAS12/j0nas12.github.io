@@ -32,6 +32,7 @@ export class PlayingCardsComponent {
     9: '9',
     0: '0',
   };
+
   cards = [
     'qH',
     '4S',

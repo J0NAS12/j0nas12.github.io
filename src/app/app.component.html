@@ -1,2 +1,10 @@
+<mat-toolbar style="background-color: #00aabb; display: flex; justify-content: space-between;">
+    <img src="../assets/cat.ico" alt="Cat" width="50">
+    @if (webSocketService.username) {
+    <span>Connected as {{webSocketService.username}}</span>
+    }
+    <img src="../assets/cat.png" alt="Cat" width="50">
+
+</mat-toolbar>
 <router-outlet />
-<div height="8px">version 0.1</div>
+<div id="footer">version 0.2</div>

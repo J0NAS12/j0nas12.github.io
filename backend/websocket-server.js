@@ -9,6 +9,20 @@ function setUpServer(server) {
   });
 
   games = { "tic-tac-toe": (a) => a == 2, "playing-cards": (a) => true };
+  gameConfig = {
+    "tic-tac-toe": {
+      in_a_row: {
+        min: 4,
+        max: 8,
+        default: 5,
+      },
+      size: {
+        min: 10,
+        max: 50,
+        default: 20,
+      },
+    },
+  };
 
   names = {};
   messages = [];
@@ -62,7 +76,7 @@ function setUpServer(server) {
                 member.id = socket.id;
               }
             });
-            lobbies[lobby].gameState.players.forEach((member) => {
+            lobbies[lobby].gameState?.players?.forEach((member) => {
               if (member.name == name) {
                 member.id = socket.id;
               }
@@ -129,9 +143,12 @@ function getLobbyOfUser(userId) {
   if (lobby == undefined) {
     return undefined;
   }
-  lobby.games = Object.keys(games).filter((game) =>
-    games[game](lobbies[key].members.length),
-  );
+  lobby.games = {};
+  Object.keys(games)
+    .filter((game) => games[game](lobbies[key].members.length))
+    .forEach((game) => {
+      lobby.games[game] = gameConfig[game];
+    });
   return lobby;
 }
 
@@ -142,15 +159,13 @@ function ticTacToe(player, action) {
     lobby.gameState = {
       size: action.config.size,
       tiles: Array(action.config.size * action.config.size).fill(null),
-      win: Math.min(action.config.size, 4),
+      win: Math.max(action.config.in_a_row, 4),
       players: [...lobby.members].sort(() => Math.random() - 0.5),
       nextPlayer: 0,
       winner: null,
     };
     console.log(this.lobbies, lobby);
-  } else {
-    console.log("Move: ", action.move);
-    console.log(lobby);
+  } else if (lobby.gameState.winner == null) {
     if (
       lobby.gameState.players[lobby.gameState.nextPlayer].id == player &&
       lobby.gameState.tiles[action.move] == null
@@ -160,8 +175,47 @@ function ticTacToe(player, action) {
     } else {
       console.log("Wrong move: ", action.move);
     }
+    lobby.gameState.winner = checkWinner(
+      lobby.gameState.tiles,
+      lobby.gameState.size,
+      lobby.gameState.win,
+    );
   }
   emitForLobby(lobby.name, "game", lobby);
+}
+
+function checkWinner(tiles, size, in_a_row) {
+  for (let player = 1; player < 3; player++) {
+    for (let i = 0; i < size * size; i++) {
+      // check horizontal
+      let countHorizontal = 0;
+      console.log(i, (i % size) + in_a_row, size);
+      if ((i % size) + in_a_row <= size) {
+        for (let j = 0; j < in_a_row; j++) {
+          if (tiles[i + j] == player) {
+            countHorizontal++;
+          }
+        }
+        if (countHorizontal == in_a_row) {
+          return player;
+        }
+      }
+
+      // check vertical
+      let countVertical = 0;
+      if (i < size * (size - in_a_row + 1)) {
+        for (let j = 0; j < in_a_row; j++) {
+          if (tiles[i + j * size] == player) {
+            countVertical++;
+          }
+        }
+        if (countVertical == in_a_row) {
+          return player;
+        }
+      }
+    }
+  }
+  return null;
 }
 
 module.exports = setUpServer;

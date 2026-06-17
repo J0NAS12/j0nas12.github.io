@@ -1,18 +1,17 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { WebSocketService } from '../services/websocketservice';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, MatIconModule, MatToolbarModule, MatButtonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(protected webSocketService: WebSocketService) {}
+}
