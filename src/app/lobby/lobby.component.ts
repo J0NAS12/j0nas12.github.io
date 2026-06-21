@@ -9,6 +9,7 @@ import { PlayingCardsComponent } from '../games/playing-cards/playing-cards.comp
 import { MatSliderModule } from '@angular/material/slider';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { TorpedoComponent } from '../games/torpedo/torpedo.component';
 
 @Component({
   selector: 'app-lobby',
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     MatSliderModule,
     MatInputModule,
     FormsModule,
+    TorpedoComponent,
   ],
   templateUrl: './lobby.component.html',
   styleUrl: './lobby.component.css',

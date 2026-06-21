@@ -1,1 +1,84 @@
-<p>torpedo works!</p>
+<div class="layout">
+
+    <!-- SHIP PALETTE -->
+    <div class="ship-pool">
+        @for (ship of availableShips; track ship.id) {
+        <div class="ship horizontal" [style.width.%]="ship.length * 10" draggable="true"
+            (dragstart)="onDragStart($event, ship)"></div>
+        }
+    </div>
+    <p><span>Vertical</span><mat-slide-toggle [(ngModel)]="isHorizontal">Horizontal</mat-slide-toggle></p>
+
+
+    <!-- BOARD -->
+    <div class="board" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+
+        @for (cell of cells; track $index) {
+        @if(cells[$index] < 2) { <div class="cell" [attr.data-index]="$index"
+            [style.background-color]="cells[$index] == 1 ? 'blue !important' : 'white'">{{$index}}</div>
+    }
+    }
+    <!--
+        @if (highlightShip != undefined) {
+        <div class="ship" [style.background-color]="'blue !important'" [style.grid-row]="highlightShip.row"
+            [style.grid-column]="
+        highlightShip.direction === 'horizontal'
+        ? highlightShip.col + ' / span ' + highlightShip.length : highlightShip.col
+      " [style.grid-row-end]="
+        highlightShip.direction === 'vertical'
+          ? 'span ' + highlightShip.length
+          : null
+      ">
+        </div>
+        }
+        -->
+
+    @for (ship of placedShips; track $index) {
+    <div (dragstart)="onDragStart($event, ship)" class="ship" [style.grid-row]="ship.row" [style.grid-column]="
+        ship.direction === 'horizontal'
+        ? ship.col + ' / span ' + ship.length : ship.col
+      " [style.grid-row-end]="
+        ship.direction === 'vertical'
+          ? 'span ' + ship.length
+          : null
+      ">
+    </div>
+    }
+    <div class="number" [style.grid-row]="1" [style.grid-column]="1">
+    </div>
+    @for (text of rows; track $index) {
+    <div class="number" [style.grid-row]="1" [style.grid-column]="$index + 2">
+        {{$index + 1}}
+    </div>
+    <div class="number" [style.grid-row]="$index + 2" [style.grid-column]="1">
+        {{text}}
+    </div>
+    }
+</div>
+</div>
+<!--
+<div
+    style=" display: flex; flex-direction: column; align-items: center; background-color: #f0f0f0; padding: 10px;
+        border-radius: 10px;">
+        <div> Your board:
+        </div>
+        <div class="board">
+            @for (ship of ships; track $index) {
+            <div class="ship" [style.grid-row]="ship.row" [style.grid-column]="
+        ship.direction === 'horizontal'
+        ? ship.col + ' / span ' + ship.length : ship.col
+      " [style.grid-row-end]="
+        ship.direction === 'vertical'
+          ? 'span ' + ship.length
+          : null
+      ">
+            </div>
+            }
+
+        </div>
+        <div> Opponents board:
+        </div>
+        <div class="board">
+        </div>
+    </div>
+    -->

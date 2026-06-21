@@ -8,7 +8,11 @@ function setUpServer(server) {
     },
   });
 
-  games = { "tic-tac-toe": (a) => a == 2, "playing-cards": (a) => true };
+  games = {
+    "tic-tac-toe": (a) => a == 2,
+    "playing-cards": (a) => true,
+    torpedo: (a) => true,
+  };
   gameConfig = {
     "tic-tac-toe": {
       in_a_row: {
@@ -22,6 +26,8 @@ function setUpServer(server) {
         default: 20,
       },
     },
+    "playing-cards": {},
+    torpedo: {},
   };
 
   names = {};
